@@ -1,0 +1,41 @@
+services:
+
+  django:
+    container_name: chatend
+    build: chatend
+    ports:
+      - "8000:8000"
+    volumes:
+      - chatend-v:/chatend
+          
+  social:
+    container_name: chatapp
+    build: chatapp
+    ports:
+      - "5173:5173"
+    volumes:
+      - chatapp-v:/chatapp
+    depends_on:
+      - django
+
+
+volumes:
+
+  chatend-v:
+    driver: local
+    name: chatend
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/afanti/Desktop/chatapp/chatend/
+
+  chatapp-v:
+    driver: local
+    name: static
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/afanti/Desktop/chatapp/chatapp
+
+
+
