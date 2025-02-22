@@ -2,9 +2,13 @@ FROM node:latest
 
 WORKDIR /chatapp
 
-# RUN npm install
+RUN npm install -g pnpm
 
-RUN npm install react-router-dom 
+COPY package.json ./
+
+RUN pnpm install
+
+
 EXPOSE 5173
 
 CMD ["npm", "run", "dev", "--", "--host"]
