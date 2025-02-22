@@ -3,6 +3,7 @@ import image1 from "/src/assets/scrooling/image1.webp";
 import image2 from "/src/assets/scrooling/image.webp";
 import { useNavigate } from 'react-router-dom';
 import '../../css/home.css';
+import Navbar from '../../components/Navbar';
 
 export default function Home() {
     const navigate = useNavigate();
@@ -174,7 +175,7 @@ export default function Home() {
      
       </div>
   </div>
-      <div className="absolute left-[5%]   h-full  justify-around  flex items-center flex-col gap-4 ">
+      {/* <div className="absolute left-[5%]   h-full  justify-around  flex items-center flex-col gap-4 ">
         <div className=" mb-50   flex flex-col gap-4 ">
             <div className="w-19 h-19 rounded-full bg-pink-200 overflow-hidden mb-4">
               <img 
@@ -212,8 +213,8 @@ export default function Home() {
 
         </div>
   
-      </div>
-
+      </div> */}
+      <Navbar />
     </div>
   );
 }

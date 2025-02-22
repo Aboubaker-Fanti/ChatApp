@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Navbar from '../../components/Navbar';
 import image1 from "/src/assets/scrooling/image1.webp";
 import image2 from "/src/assets/scrooling/image.webp";
 import { useNavigate } from 'react-router-dom';
@@ -608,7 +609,7 @@ export default function Chat() {
          
       </div>
 
-      <div className="absolute left-[5%]   h-full  justify-around  flex items-center flex-col gap-4 ">
+      {/* <div className="absolute left-[5%]   h-full  justify-around  flex items-center flex-col gap-4 ">
         <div className=" mb-50   flex flex-col gap-4 ">
             <div className="w-19 h-19 rounded-full bg-pink-200 overflow-hidden mb-4">
               <img 
@@ -646,7 +647,8 @@ export default function Chat() {
 
         </div>
   
-      </div>
+      </div> */} 
+      <Navbar />
 
     </div>
   );
