@@ -52,29 +52,34 @@ def LoginView(request):
     return Response({"error": "Invalid credentials"}, status=400)
 # Refresh Token View
 @api_view(['POST'])
-def refresh_token(request):
-    try:
-        # Get refresh token from request body instead of cookies
-        refresh_token = request.data.get('refresh_token')
+def refresh_token_view(request):
+    refresh_token = request.data.get("refresh")
+    
+    if refresh_token:
+        try:
+            # Verifying the provided refresh token and creating a new refresh and access token
+            refresh = RefreshToken(refresh_token)
 
-        if not refresh_token:
-            return Response({"error": "No refresh token provided"}, status=401)
+            # Create new access and refresh tokens
+            new_access_token = str(refresh.access_token)
+            new_refresh_token = str(refresh)
 
-        refresh = RefreshToken(refresh_token)  # Decode the refresh token
-        new_access_token = str(refresh.access_token)
-        new_refresh_token = str(RefreshToken.for_user(refresh.user))  # Generate new refresh token
+            # Return both tokens
+            return Response({
+                "access": new_access_token,
+                "refresh": new_refresh_token
+            }, status=status.HTTP_200_OK)
+        
+        except Exception:
+            return Response({"error": "Invalid refresh token"}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({
-            "message": "Token refreshed successfully",
-            "access_token": new_access_token,
-            "refresh_token": new_refresh_token  # Removed csrf_token from response
-        })
-
-    except Exception:
-        return Response({"error": "Invalid or expired refresh token"}, status=401)
+    return Response({"error": "Refresh token required"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET"])
 def check_auth(request):
-    if request.user.is_authenticated:
+    try:
+        # Verifying the access token using JWTAuthentication
+        JWTAuthentication().authenticate(request)
         return Response({"message": "User is authenticated", "user": request.user.username})
-    return Response({"error": "User not authenticated"}, status=401)
+    except Exception:
+        return Response({"error": "User not authenticated"}, status=401)
